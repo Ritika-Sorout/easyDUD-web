@@ -47,7 +47,8 @@ const sectionGroups: SectionGroup[] = [
     section: "hotels",
     label: "Hotels",
     items: [
-      { id: "hotel", label: "Hotel", to: "/hotels", Icon: Hotel },
+      // No sub-items — clicking Hotels navigates directly to /hotels page.
+      // Sidebar hides entirely on /hotels route (handled in FloatingSidebar early return).
     ],
   },
   {
@@ -56,7 +57,6 @@ const sectionGroups: SectionGroup[] = [
     items: [
       { id: "flight", label: "Flight", to: "/flights", Icon: Plane },
       { id: "bus", label: "Bus", to: "/bus", Icon: Bus },
-      { id: "taxi", label: "Taxi", to: "/cab", Icon: CarTaxiFront },
     ],
   },
 ];
