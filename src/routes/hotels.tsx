@@ -85,6 +85,16 @@ function HotelsPage() {
         Back to Home
       </Link>
 
+      {/* Hotel partner CTA — entry into the B2B onboarding portal */}
+      <Link
+        to="/hotel-onboarding"
+        className="fixed right-4 top-20 z-40 inline-flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_8px_24px_-12px_rgba(99,102,241,0.6)] transition-colors hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300"
+      >
+        List your property
+      </Link>
+
+
+
 
       <SearchHero
         onSearch={(q) => {
