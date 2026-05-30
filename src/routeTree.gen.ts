@@ -13,6 +13,7 @@ import { Route as TaxiRouteImport } from './routes/taxi'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PlansPricingRouteImport } from './routes/plans-pricing'
 import { Route as HotelsRouteImport } from './routes/hotels'
+import { Route as HotelOnboardingRouteImport } from './routes/hotel-onboarding'
 import { Route as FlightsRouteImport } from './routes/flights'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CabRouteImport } from './routes/cab'
@@ -23,6 +24,7 @@ import { Route as BikeRouteImport } from './routes/bike'
 import { Route as AutoRouteImport } from './routes/auto'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HotelOnboardingRegisterRouteImport } from './routes/hotel-onboarding.register'
 import { Route as BusSeatsRouteImport } from './routes/bus.seats'
 import { Route as BusResultsRouteImport } from './routes/bus.results'
 import { Route as BusLoginRouteImport } from './routes/bus.login'
@@ -48,6 +50,11 @@ const PlansPricingRoute = PlansPricingRouteImport.update({
 const HotelsRoute = HotelsRouteImport.update({
   id: '/hotels',
   path: '/hotels',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HotelOnboardingRoute = HotelOnboardingRouteImport.update({
+  id: '/hotel-onboarding',
+  path: '/hotel-onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FlightsRoute = FlightsRouteImport.update({
@@ -100,6 +107,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HotelOnboardingRegisterRoute = HotelOnboardingRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => HotelOnboardingRoute,
+} as any)
 const BusSeatsRoute = BusSeatsRouteImport.update({
   id: '/seats',
   path: '/seats',
@@ -142,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/cab': typeof CabRoute
   '/contact': typeof ContactRoute
   '/flights': typeof FlightsRoute
+  '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
@@ -152,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/bus/login': typeof BusLoginRoute
   '/bus/results': typeof BusResultsRoute
   '/bus/seats': typeof BusSeatsRoute
+  '/hotel-onboarding/register': typeof HotelOnboardingRegisterRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -164,6 +178,7 @@ export interface FileRoutesByTo {
   '/cab': typeof CabRoute
   '/contact': typeof ContactRoute
   '/flights': typeof FlightsRoute
+  '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
@@ -174,6 +189,7 @@ export interface FileRoutesByTo {
   '/bus/login': typeof BusLoginRoute
   '/bus/results': typeof BusResultsRoute
   '/bus/seats': typeof BusSeatsRoute
+  '/hotel-onboarding/register': typeof HotelOnboardingRegisterRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -187,6 +203,7 @@ export interface FileRoutesById {
   '/cab': typeof CabRoute
   '/contact': typeof ContactRoute
   '/flights': typeof FlightsRoute
+  '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
@@ -197,6 +214,7 @@ export interface FileRoutesById {
   '/bus/login': typeof BusLoginRoute
   '/bus/results': typeof BusResultsRoute
   '/bus/seats': typeof BusSeatsRoute
+  '/hotel-onboarding/register': typeof HotelOnboardingRegisterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -211,6 +229,7 @@ export interface FileRouteTypes {
     | '/cab'
     | '/contact'
     | '/flights'
+    | '/hotel-onboarding'
     | '/hotels'
     | '/plans-pricing'
     | '/services'
@@ -221,6 +240,7 @@ export interface FileRouteTypes {
     | '/bus/login'
     | '/bus/results'
     | '/bus/seats'
+    | '/hotel-onboarding/register'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -233,6 +253,7 @@ export interface FileRouteTypes {
     | '/cab'
     | '/contact'
     | '/flights'
+    | '/hotel-onboarding'
     | '/hotels'
     | '/plans-pricing'
     | '/services'
@@ -243,6 +264,7 @@ export interface FileRouteTypes {
     | '/bus/login'
     | '/bus/results'
     | '/bus/seats'
+    | '/hotel-onboarding/register'
   id:
     | '__root__'
     | '/'
@@ -255,6 +277,7 @@ export interface FileRouteTypes {
     | '/cab'
     | '/contact'
     | '/flights'
+    | '/hotel-onboarding'
     | '/hotels'
     | '/plans-pricing'
     | '/services'
@@ -265,6 +288,7 @@ export interface FileRouteTypes {
     | '/bus/login'
     | '/bus/results'
     | '/bus/seats'
+    | '/hotel-onboarding/register'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -278,6 +302,7 @@ export interface RootRouteChildren {
   CabRoute: typeof CabRoute
   ContactRoute: typeof ContactRoute
   FlightsRoute: typeof FlightsRoute
+  HotelOnboardingRoute: typeof HotelOnboardingRouteWithChildren
   HotelsRoute: typeof HotelsRoute
   PlansPricingRoute: typeof PlansPricingRoute
   ServicesRoute: typeof ServicesRoute
@@ -312,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/hotels'
       fullPath: '/hotels'
       preLoaderRoute: typeof HotelsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hotel-onboarding': {
+      id: '/hotel-onboarding'
+      path: '/hotel-onboarding'
+      fullPath: '/hotel-onboarding'
+      preLoaderRoute: typeof HotelOnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/flights': {
@@ -384,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hotel-onboarding/register': {
+      id: '/hotel-onboarding/register'
+      path: '/register'
+      fullPath: '/hotel-onboarding/register'
+      preLoaderRoute: typeof HotelOnboardingRegisterRouteImport
+      parentRoute: typeof HotelOnboardingRoute
+    }
     '/bus/seats': {
       id: '/bus/seats'
       path: '/seats'
@@ -449,6 +488,18 @@ const BusRouteChildren: BusRouteChildren = {
 
 const BusRouteWithChildren = BusRoute._addFileChildren(BusRouteChildren)
 
+interface HotelOnboardingRouteChildren {
+  HotelOnboardingRegisterRoute: typeof HotelOnboardingRegisterRoute
+}
+
+const HotelOnboardingRouteChildren: HotelOnboardingRouteChildren = {
+  HotelOnboardingRegisterRoute: HotelOnboardingRegisterRoute,
+}
+
+const HotelOnboardingRouteWithChildren = HotelOnboardingRoute._addFileChildren(
+  HotelOnboardingRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
@@ -460,6 +511,7 @@ const rootRouteChildren: RootRouteChildren = {
   CabRoute: CabRoute,
   ContactRoute: ContactRoute,
   FlightsRoute: FlightsRoute,
+  HotelOnboardingRoute: HotelOnboardingRouteWithChildren,
   HotelsRoute: HotelsRoute,
   PlansPricingRoute: PlansPricingRoute,
   ServicesRoute: ServicesRoute,
