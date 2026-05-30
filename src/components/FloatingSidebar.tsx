@@ -78,18 +78,22 @@ function deriveActive(pathname: string): BookingCategory {
 
 function deriveSection(pathname: string): BookingSection {
   if (pathname.startsWith("/hotels")) return "hotels";
-  if (
-    pathname.startsWith("/flights") ||
-    pathname.startsWith("/bus") ||
-    pathname.startsWith("/cab")
-  )
-    return "travel";
-  return "ondemand"; // /bike, /auto, default
+  if (pathname.startsWith("/flights")) return "travel";
+  if (pathname.startsWith("/bus")) return "travel";
+  if (pathname.startsWith("/cab")) return "ondemand";
+  if (pathname.startsWith("/bike")) return "ondemand";
+  if (pathname.startsWith("/auto")) return "ondemand";
+  return "ondemand"; // default
 }
 
 export function FloatingSidebar(props: FloatingSidebarProps) {
   const { active: controlled, onChange, onSectionChange } = props;
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  // Hide sidebar on the hotels page — it has its own navigation.
+  if (pathname.startsWith("/hotels")) return null;
+
   const active = controlled ?? deriveActive(pathname);
   const activeSection = props.activeSection ?? deriveSection(pathname);
 
