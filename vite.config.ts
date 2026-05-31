@@ -9,6 +9,6 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 // Configure for client-side SPA deployment (no SSR for Vercel)
 export default defineConfig({
   tanstackStart: {
-    client: true,
+    ssr: false,
   },
 });
