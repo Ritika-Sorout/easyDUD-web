@@ -38,21 +38,14 @@ function RegisterPage() {
             <ArrowLeft className="h-4 w-4" />
             Back to plans
           </Link>
-          <span
-            className={`rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${
-              isPremium ? "bg-indigo-600 text-white" : "bg-slate-900 text-white"
-            }`}
-          >
-            {tier} tier
-          </span>
         </div>
       </header>
 
       <main className="mx-auto max-w-3xl px-6 py-10">
         <h1 className="mb-2 text-2xl font-bold text-foreground sm:text-3xl">
           {isPremium
-            ? "Premium hotel onboarding"
-            : "Basic hotel registration"}
+            ? "Basic hotel onboarding"
+            : "Premium hotel registration"}
         </h1>
         <p className="mb-8 text-sm text-muted-foreground">
           {isPremium

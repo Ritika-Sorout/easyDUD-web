@@ -12,7 +12,7 @@ export function StepWizard({ steps, currentStep, children }: Props) {
   return (
     <div className="w-full">
       {/* Progress bar */}
-      <ol className="mb-10 flex items-center">
+      <ol className="mb-10 flex items-center justify-center">
         {steps.map((label, i) => {
           const done = i < currentStep;
           const active = i === currentStep;

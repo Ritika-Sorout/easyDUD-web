@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { PricingCard, type PricingTier } from "@/components/onboarding/PricingCard";
 import { ContactSection } from "@/components/onboarding/ContactSection";
@@ -46,6 +46,13 @@ export const Route = createFileRoute("/hotel-onboarding")({
 });
 
 function HotelOnboardingLanding() {
+  const location = useLocation();
+  const isRegisterRoute = location.pathname.includes('/register');
+
+  if (isRegisterRoute) {
+    return <Outlet />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Top bar */}

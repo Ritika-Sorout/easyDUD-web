@@ -1,7 +1,7 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
-import { getFirestore, type Firestore } from "firebase/firestore";
+import { getFirestore, type Firestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage, type FirebaseStorage } from "firebase/storage";
-import { getFunctions, type Functions } from "firebase/functions";
+import { getFunctions, type Functions, connectFunctionsEmulator } from "firebase/functions";
 
 /**
  * Firebase client (browser) configuration.
@@ -42,7 +42,12 @@ export function getFirebaseApp(): FirebaseApp {
 }
 
 export function getDb(): Firestore {
-  return getFirestore(getFirebaseApp());
+  const db = getFirestore(getFirebaseApp());
+  // Connect to emulator in development only
+  if (import.meta.env.DEV && import.meta.env.VITE_USE_EMULATORS === "true") {
+    connectFirestoreEmulator(db, "127.0.0.1", 8080);
+  }
+  return db;
 }
 
 export function getBucket(): FirebaseStorage {
@@ -50,5 +55,10 @@ export function getBucket(): FirebaseStorage {
 }
 
 export function getFns(): Functions {
-  return getFunctions(getFirebaseApp());
+  const functions = getFunctions(getFirebaseApp());
+  // Connect to emulator in development only
+  if (import.meta.env.DEV && import.meta.env.VITE_USE_EMULATORS === "true") {
+    connectFunctionsEmulator(functions, "127.0.0.1", 5001);
+  }
+  return functions;
 }

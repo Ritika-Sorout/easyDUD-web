@@ -6,5 +6,8 @@ service cloud.firestore {
       allow create: if true; // TODO: tighten once partner auth is added
       allow update, delete: if false;
     }
+    match /registrations/{registrationId} {
+      allow read, write: if true; // TODO: tighten once admin auth is added
+    }
   }
 }

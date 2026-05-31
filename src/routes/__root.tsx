@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -112,10 +113,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { pathname } = useLocation();
+  const isHomePage = pathname === "/";
 
   return (
     <QueryClientProvider client={queryClient}>
-      <FloatingNav />
+      {isHomePage && <FloatingNav />}
       <Outlet />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>

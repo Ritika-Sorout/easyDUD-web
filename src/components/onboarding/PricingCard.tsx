@@ -1,4 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { DiscountBadge } from "./DiscountBadge";
 import { PremiumFeatureList } from "./PremiumFeatureList";
 
@@ -16,8 +16,6 @@ export interface PricingTier {
 const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
 
 export function PricingCard({ tier }: { tier: PricingTier }) {
-  const navigate = useNavigate();
-
   return (
     <article
       className={`relative flex flex-col rounded-3xl border bg-white p-8 shadow-sm transition-all hover:shadow-xl ${
@@ -73,22 +71,17 @@ export function PricingCard({ tier }: { tier: PricingTier }) {
         </ol>
       </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          navigate({
-            to: "/hotel-onboarding/register",
-            search: { tier: tier.id },
-          })
-        }
-        className={`mt-auto w-full rounded-xl py-3 font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+      <Link
+        to="/hotel-onboarding/register"
+        search={{ tier: tier.id === "premium" ? "basic" : "premium" }}
+        className={`mt-auto w-full rounded-xl py-3 font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-center ${
           tier.highlight
             ? "bg-indigo-600 text-white hover:bg-indigo-700 focus-visible:ring-indigo-400"
             : "bg-foreground text-background hover:opacity-90 focus-visible:ring-slate-400"
         }`}
       >
         {tier.cta}
-      </button>
+      </Link>
     </article>
   );
 }

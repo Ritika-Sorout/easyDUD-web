@@ -1,15 +1,13 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import { defineSecret } from "firebase-functions/params";
 import * as crypto from "node:crypto";
 
 /**
  * Public Razorpay test Key ID — safe to keep in source.
- * The Key Secret is provided ONLY via Firebase Secret Manager and is never
- * committed anywhere. Set it with:
+ * The Key Secret is hardcoded for testing. In production, use Firebase Secret Manager:
  *   firebase functions:secrets:set RAZORPAY_KEY_SECRET
  */
 const RAZORPAY_KEY_ID = "rzp_test_SpuH9PLdS8BzUb";
-const RAZORPAY_KEY_SECRET = defineSecret("RAZORPAY_KEY_SECRET");
+const RAZORPAY_KEY_SECRET = "MRtCrw8Ciji9BQJwp3AP6Xyk";
 
 const BASIC_PLAN_AMOUNT_PAISE = 999900; // ₹9,999
 
@@ -23,13 +21,11 @@ interface RazorpayOrderResponse {
  * createRazorpayOrder
  * Creates a Razorpay order server-side and returns the id/amount/currency.
  */
-export const createRazorpayOrder = onCall(
-  { secrets: [RAZORPAY_KEY_SECRET] },
-  async () => {
-    const secret = RAZORPAY_KEY_SECRET.value();
-    if (!secret) {
-      throw new HttpsError("failed-precondition", "Razorpay secret is not configured.");
-    }
+export const createRazorpayOrder = onCall(async (request: any) => {
+  const secret = RAZORPAY_KEY_SECRET;
+  if (!secret) {
+    throw new HttpsError("failed-precondition", "Razorpay secret is not configured.");
+  }
 
     const auth = Buffer.from(`${RAZORPAY_KEY_ID}:${secret}`).toString("base64");
 
@@ -66,20 +62,18 @@ interface VerifyPayload {
  * verifyRazorpayPayment
  * Verifies the Razorpay signature using HMAC-SHA256(secret, order_id|payment_id).
  */
-export const verifyRazorpayPayment = onCall(
-  { secrets: [RAZORPAY_KEY_SECRET] },
-  async (request) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-      (request.data ?? {}) as VerifyPayload;
+export const verifyRazorpayPayment = onCall(async (request: any) => {
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+    (request.data ?? {}) as VerifyPayload;
 
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-      throw new HttpsError("invalid-argument", "Missing payment verification fields.");
-    }
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    throw new HttpsError("invalid-argument", "Missing payment verification fields.");
+  }
 
-    const expected = crypto
-      .createHmac("sha256", RAZORPAY_KEY_SECRET.value())
-      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-      .digest("hex");
+  const expected = crypto
+    .createHmac("sha256", RAZORPAY_KEY_SECRET)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+    .digest("hex");
 
     const expectedBuf = Buffer.from(expected, "utf8");
     const signatureBuf = Buffer.from(razorpay_signature, "utf8");

@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { MapPin } from "lucide-react";
 import { StepWizard } from "./StepWizard";
 import { ImageUploader } from "./ImageUploader";
+import { getDb } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const BASIC_STEPS = ["Payment Method", "Hotel Information", "Review & Submit"];
 
@@ -17,6 +19,7 @@ const schema = z.object({
   lat: z.number().nullable(),
   lng: z.number().nullable(),
   manualLocation: z.string().trim().max(200).optional(),
+  contactNumber: z.string().trim().min(10, "Enter a valid 10-digit mobile number").max(15),
   images: z.array(z.instanceof(File)).min(1, "Add at least one image"),
   roomPricing: z.coerce.number().min(1, "Required").max(1_000_000),
   details: z.string().trim().min(20, "Tell us a bit more").max(2000),
@@ -34,6 +37,7 @@ export function BasicRegisterForm() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const db = getDb();
 
   const {
     register,
@@ -54,6 +58,7 @@ export function BasicRegisterForm() {
       lat: null,
       lng: null,
       manualLocation: "",
+      contactNumber: "",
       images: [],
       roomPricing: 0,
       details: "",
@@ -87,19 +92,22 @@ export function BasicRegisterForm() {
   };
 
   const onSubmit = async (values: FormValues) => {
-    const submission = {
-      tier: "basic",
-      ...values,
-      images: values.images.map((f) => f.name),
-      submittedAt: new Date().toISOString(),
-    };
-    const existing = JSON.parse(localStorage.getItem("hotel_registrations") ?? "[]");
-    localStorage.setItem(
-      "hotel_registrations",
-      JSON.stringify([...existing, submission]),
-    );
-    toast.success("Registration submitted! Our team will reach out shortly.");
-    navigate({ to: "/hotel-onboarding" });
+    console.log("Form submitted with values:", values);
+    try {
+      const submission = {
+        tier: "basic",
+        ...values,
+        images: values.images.map((f) => f.name),
+        submittedAt: serverTimestamp(),
+      };
+      console.log("Saving to Firestore:", submission);
+      await addDoc(collection(db, "registrations"), submission);
+      toast.success("Registration submitted! Our team will reach out shortly.");
+      navigate({ to: "/hotel-onboarding" });
+    } catch (error) {
+      console.error("Error saving registration:", error);
+      toast.error("Failed to submit registration. Please try again.");
+    }
   };
 
   const lat = watch("lat");
@@ -181,6 +189,14 @@ export function BasicRegisterForm() {
                 {...register("manualLocation")}
                 className="input mt-2"
                 placeholder="Or enter landmark / city manually"
+              />
+            </Field>
+
+            <Field label="Contact Number" error={errors.contactNumber?.message}>
+              <input
+                {...register("contactNumber")}
+                className="input"
+                placeholder="+91 98765 43210"
               />
             </Field>
 
@@ -298,6 +314,7 @@ function ReviewCard({ values }: { values: FormValues }) {
         ? `${values.lat.toFixed(4)}, ${values.lng.toFixed(4)}`
         : values.manualLocation || "—",
     ],
+    ["Contact Number", values.contactNumber || "—"],
     ["Images", `${values.images.length} uploaded`],
     ["Room Pricing", `₹${Number(values.roomPricing).toLocaleString("en-IN")} / night`],
     ["Details", values.details],

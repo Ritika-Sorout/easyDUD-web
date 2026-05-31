@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, CalendarDays, Users, Search } from "lucide-react";
-import { TravelTabs } from "@/components/TravelTabs";
 
 const fieldWrap: React.CSSProperties = {
   display: "flex",
@@ -56,10 +55,6 @@ export function SearchHero({
       }}
     >
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
-          <TravelTabs />
-        </div>
-
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,6 +67,7 @@ export function SearchHero({
             letterSpacing: "-0.02em",
             color: "#0f172a",
             margin: 0,
+            paddingTop: 28,
           }}
         >
           Find your next <em style={{ color: "#2563EB", fontStyle: "italic" }}>perfect stay</em>

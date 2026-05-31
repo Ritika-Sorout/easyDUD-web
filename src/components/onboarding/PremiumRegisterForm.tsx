@@ -4,9 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { MapPin, Star } from "lucide-react";
+import { MapPin, Star, Loader2 } from "lucide-react";
 import { StepWizard } from "./StepWizard";
 import { ImageUploader } from "./ImageUploader";
+import {
+  loadRazorpayScript,
+  createRazorpayOrder,
+  verifyRazorpayPayment,
+  RAZORPAY_KEY_ID,
+} from "@/lib/razorpay";
+import { getDb } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const PREMIUM_STEPS = ["Onboarding Form", "Review Details", "Payment"];
 const AMENITY_OPTIONS = ["WiFi", "Pool", "Gym", "Restaurant", "Parking", "Spa"];
@@ -50,6 +58,8 @@ export function PremiumRegisterForm() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [locationError, setLocationError] = useState<string | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const db = getDb();
 
   const {
     register,
@@ -123,19 +133,77 @@ export function PremiumRegisterForm() {
   };
 
   const onSubmit = async (values: FormValues) => {
-    const submission = {
-      tier: "premium",
-      ...values,
-      images: values.images.map((f) => f.name),
-      submittedAt: new Date().toISOString(),
-    };
-    const existing = JSON.parse(localStorage.getItem("hotel_registrations") ?? "[]");
-    localStorage.setItem(
-      "hotel_registrations",
-      JSON.stringify([...existing, submission]),
-    );
-    toast.success("Premium registration submitted! Our team will reach out within 24 hours.");
-    navigate({ to: "/hotel-onboarding" });
+    setIsProcessingPayment(true);
+    try {
+      // Load Razorpay script
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        toast.error("Failed to load payment gateway. Please try again.");
+        setIsProcessingPayment(false);
+        return;
+      }
+
+      // Create Razorpay order via Firebase Functions
+      const order = await createRazorpayOrder();
+
+      // Open Razorpay checkout
+      const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        order_id: order.orderId,
+        name: "easyDUD",
+        description: "Premium Hotel Onboarding",
+        theme: { color: "#4F46E5" },
+        handler: async (response: any) => {
+          try {
+            // Verify payment on server
+            const verification = await verifyRazorpayPayment({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            });
+
+            if (verification.success) {
+              // Save registration with payment details
+              const submission = {
+                tier: "premium",
+                ...values,
+                images: values.images.map((f) => f.name),
+                submittedAt: serverTimestamp(),
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                paymentStatus: "paid",
+              };
+              await addDoc(collection(db, "registrations"), submission);
+              toast.success("Payment successful! Registration submitted.");
+              navigate({ to: "/hotel-onboarding" });
+            } else {
+              toast.error("Payment verification failed. Please contact support.");
+            }
+          } catch (error) {
+            toast.error("Payment verification failed. Please contact support.");
+          }
+          setIsProcessingPayment(false);
+        },
+        modal: {
+          ondismiss: () => {
+            toast.info("Payment cancelled");
+            setIsProcessingPayment(false);
+          },
+        },
+        prefill: {
+          name: values.hotelName,
+        },
+      };
+
+      const razorpay = new (window as any).Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Payment error:", error);
+      toast.error("Payment failed. Please try again.");
+      setIsProcessingPayment(false);
+    }
   };
 
   const stars = watch("starRating");
@@ -329,10 +397,6 @@ export function PremiumRegisterForm() {
                 <div className="my-2 border-t border-indigo-200" />
                 <Row label="Total payable" value="₹2,94,998" bold />
               </div>
-              <p className="mt-3 rounded-lg bg-amber-50 p-2 text-xs text-amber-800">
-                Payment gateway is in stub mode — your selection is recorded but
-                no charge is made.
-              </p>
             </div>
           </div>
         )}
@@ -361,10 +425,17 @@ export function PremiumRegisterForm() {
         ) : (
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="rounded-lg bg-indigo-600 px-6 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50"
+            disabled={isSubmitting || isProcessingPayment}
+            className="rounded-lg bg-indigo-600 px-6 py-2 text-sm font-semibold text-white hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
           >
-            Complete Registration
+            {isProcessingPayment ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Processing Payment...
+              </>
+            ) : (
+              "Complete Registration"
+            )}
           </button>
         )}
       </div>
