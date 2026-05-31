@@ -11,5 +11,8 @@ export default defineConfig({
   tanstackStart: {
     ssr: false,
     middleware: false,
+    server: {
+      entry: null,
+    },
   },
 });
