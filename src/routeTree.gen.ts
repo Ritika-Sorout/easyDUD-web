@@ -9,9 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TravelRouteImport } from './routes/travel'
 import { Route as TaxiRouteImport } from './routes/taxi'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as PlansPricingRouteImport } from './routes/plans-pricing'
+import { Route as OnDemandRouteImport } from './routes/on-demand'
 import { Route as HotelsRouteImport } from './routes/hotels'
 import { Route as HotelOnboardingRouteImport } from './routes/hotel-onboarding'
 import { Route as FlightsRouteImport } from './routes/flights'
@@ -21,6 +23,7 @@ import { Route as BusRouteImport } from './routes/bus'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as BikePoolingRouteImport } from './routes/bike-pooling'
 import { Route as BikeRouteImport } from './routes/bike'
+import { Route as AutoRideRouteImport } from './routes/auto-ride'
 import { Route as AutoRouteImport } from './routes/auto'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,6 +35,11 @@ import { Route as BusConfirmationRouteImport } from './routes/bus.confirmation'
 import { Route as BusCheckoutRouteImport } from './routes/bus.checkout'
 import { Route as BusAccountRouteImport } from './routes/bus.account'
 
+const TravelRoute = TravelRouteImport.update({
+  id: '/travel',
+  path: '/travel',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TaxiRoute = TaxiRouteImport.update({
   id: '/taxi',
   path: '/taxi',
@@ -45,6 +53,11 @@ const ServicesRoute = ServicesRouteImport.update({
 const PlansPricingRoute = PlansPricingRouteImport.update({
   id: '/plans-pricing',
   path: '/plans-pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnDemandRoute = OnDemandRouteImport.update({
+  id: '/on-demand',
+  path: '/on-demand',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HotelsRoute = HotelsRouteImport.update({
@@ -90,6 +103,11 @@ const BikePoolingRoute = BikePoolingRouteImport.update({
 const BikeRoute = BikeRouteImport.update({
   id: '/bike',
   path: '/bike',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutoRideRoute = AutoRideRouteImport.update({
+  id: '/auto-ride',
+  path: '/auto-ride',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AutoRoute = AutoRouteImport.update({
@@ -147,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auto': typeof AutoRoute
+  '/auto-ride': typeof AutoRideRoute
   '/bike': typeof BikeRoute
   '/bike-pooling': typeof BikePoolingRoute
   '/blog': typeof BlogRoute
@@ -156,9 +175,11 @@ export interface FileRoutesByFullPath {
   '/flights': typeof FlightsRoute
   '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
+  '/on-demand': typeof OnDemandRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
   '/taxi': typeof TaxiRoute
+  '/travel': typeof TravelRoute
   '/bus/account': typeof BusAccountRoute
   '/bus/checkout': typeof BusCheckoutRoute
   '/bus/confirmation': typeof BusConfirmationRoute
@@ -171,6 +192,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auto': typeof AutoRoute
+  '/auto-ride': typeof AutoRideRoute
   '/bike': typeof BikeRoute
   '/bike-pooling': typeof BikePoolingRoute
   '/blog': typeof BlogRoute
@@ -180,9 +202,11 @@ export interface FileRoutesByTo {
   '/flights': typeof FlightsRoute
   '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
+  '/on-demand': typeof OnDemandRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
   '/taxi': typeof TaxiRoute
+  '/travel': typeof TravelRoute
   '/bus/account': typeof BusAccountRoute
   '/bus/checkout': typeof BusCheckoutRoute
   '/bus/confirmation': typeof BusConfirmationRoute
@@ -196,6 +220,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auto': typeof AutoRoute
+  '/auto-ride': typeof AutoRideRoute
   '/bike': typeof BikeRoute
   '/bike-pooling': typeof BikePoolingRoute
   '/blog': typeof BlogRoute
@@ -205,9 +230,11 @@ export interface FileRoutesById {
   '/flights': typeof FlightsRoute
   '/hotel-onboarding': typeof HotelOnboardingRouteWithChildren
   '/hotels': typeof HotelsRoute
+  '/on-demand': typeof OnDemandRoute
   '/plans-pricing': typeof PlansPricingRoute
   '/services': typeof ServicesRoute
   '/taxi': typeof TaxiRoute
+  '/travel': typeof TravelRoute
   '/bus/account': typeof BusAccountRoute
   '/bus/checkout': typeof BusCheckoutRoute
   '/bus/confirmation': typeof BusConfirmationRoute
@@ -222,6 +249,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auto'
+    | '/auto-ride'
     | '/bike'
     | '/bike-pooling'
     | '/blog'
@@ -231,9 +259,11 @@ export interface FileRouteTypes {
     | '/flights'
     | '/hotel-onboarding'
     | '/hotels'
+    | '/on-demand'
     | '/plans-pricing'
     | '/services'
     | '/taxi'
+    | '/travel'
     | '/bus/account'
     | '/bus/checkout'
     | '/bus/confirmation'
@@ -246,6 +276,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auto'
+    | '/auto-ride'
     | '/bike'
     | '/bike-pooling'
     | '/blog'
@@ -255,9 +286,11 @@ export interface FileRouteTypes {
     | '/flights'
     | '/hotel-onboarding'
     | '/hotels'
+    | '/on-demand'
     | '/plans-pricing'
     | '/services'
     | '/taxi'
+    | '/travel'
     | '/bus/account'
     | '/bus/checkout'
     | '/bus/confirmation'
@@ -270,6 +303,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auto'
+    | '/auto-ride'
     | '/bike'
     | '/bike-pooling'
     | '/blog'
@@ -279,9 +313,11 @@ export interface FileRouteTypes {
     | '/flights'
     | '/hotel-onboarding'
     | '/hotels'
+    | '/on-demand'
     | '/plans-pricing'
     | '/services'
     | '/taxi'
+    | '/travel'
     | '/bus/account'
     | '/bus/checkout'
     | '/bus/confirmation'
@@ -295,6 +331,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AutoRoute: typeof AutoRoute
+  AutoRideRoute: typeof AutoRideRoute
   BikeRoute: typeof BikeRoute
   BikePoolingRoute: typeof BikePoolingRoute
   BlogRoute: typeof BlogRoute
@@ -304,13 +341,22 @@ export interface RootRouteChildren {
   FlightsRoute: typeof FlightsRoute
   HotelOnboardingRoute: typeof HotelOnboardingRouteWithChildren
   HotelsRoute: typeof HotelsRoute
+  OnDemandRoute: typeof OnDemandRoute
   PlansPricingRoute: typeof PlansPricingRoute
   ServicesRoute: typeof ServicesRoute
   TaxiRoute: typeof TaxiRoute
+  TravelRoute: typeof TravelRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/travel': {
+      id: '/travel'
+      path: '/travel'
+      fullPath: '/travel'
+      preLoaderRoute: typeof TravelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/taxi': {
       id: '/taxi'
       path: '/taxi'
@@ -330,6 +376,13 @@ declare module '@tanstack/react-router' {
       path: '/plans-pricing'
       fullPath: '/plans-pricing'
       preLoaderRoute: typeof PlansPricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/on-demand': {
+      id: '/on-demand'
+      path: '/on-demand'
+      fullPath: '/on-demand'
+      preLoaderRoute: typeof OnDemandRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hotels': {
@@ -393,6 +446,13 @@ declare module '@tanstack/react-router' {
       path: '/bike'
       fullPath: '/bike'
       preLoaderRoute: typeof BikeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auto-ride': {
+      id: '/auto-ride'
+      path: '/auto-ride'
+      fullPath: '/auto-ride'
+      preLoaderRoute: typeof AutoRideRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auto': {
@@ -504,6 +564,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AutoRoute: AutoRoute,
+  AutoRideRoute: AutoRideRoute,
   BikeRoute: BikeRoute,
   BikePoolingRoute: BikePoolingRoute,
   BlogRoute: BlogRoute,
@@ -513,10 +574,22 @@ const rootRouteChildren: RootRouteChildren = {
   FlightsRoute: FlightsRoute,
   HotelOnboardingRoute: HotelOnboardingRouteWithChildren,
   HotelsRoute: HotelsRoute,
+  OnDemandRoute: OnDemandRoute,
   PlansPricingRoute: PlansPricingRoute,
   ServicesRoute: ServicesRoute,
   TaxiRoute: TaxiRoute,
+  TravelRoute: TravelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

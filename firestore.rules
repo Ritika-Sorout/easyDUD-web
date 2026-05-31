@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /hotels/{hotelId} {
+      allow read: if true;
+      allow create: if true; // TODO: tighten once partner auth is added
+      allow update, delete: if false;
+    }
+  }
+}

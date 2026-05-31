@@ -1,0 +1,11 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /hotels/{imageId} {
+      allow read: if true;
+      // Demo: allow unauthenticated writes. Tighten to `request.auth != null`
+      // once partner authentication is in place.
+      allow write: if true;
+    }
+  }
+}

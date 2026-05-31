@@ -19,7 +19,6 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { FloatingSidebar } from "@/components/FloatingSidebar";
 import flightsBg from "@/assets/flights-bg.jpg";
 import emblem from "@/assets/easydud-emblem.png";
 
@@ -184,9 +183,8 @@ function FlightsPage() {
 
       <div className="relative z-10">
         <Navbar />
-        <FloatingSidebar />
 
-        <main className="mx-auto max-w-[1320px] px-6 pb-24 pt-8 md:pl-24">
+        <main className="mx-auto max-w-[1320px] px-6 pb-24 pt-8">
           {/* Eyebrow */}
           <div className="mb-6 flex items-center gap-3 text-white/90">
             <img src={emblem} alt="Easy Dud" className="h-10 w-10" />

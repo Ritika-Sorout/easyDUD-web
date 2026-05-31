@@ -5,7 +5,6 @@ import { Plane, CarTaxiFront, Bike, Hotel, Search, MapPin, Calendar, Users } fro
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { FloatingSidebar } from "@/components/FloatingSidebar";
 import {
   OurServicesSection,
   WhatWeOfferSection,
@@ -53,15 +52,8 @@ const HERO: Record<HeroTab, { image: string; lead: string; italic: string; sub: 
   },
 };
 
-const TABS: { id: HeroTab; label: string; to: string }[] = [
-  { id: "flights", label: "Flights", to: "/flights" },
-  { id: "cab", label: "Cab", to: "/cab" },
-  { id: "bike", label: "Bike", to: "/bike-pooling" },
-  { id: "hotels", label: "Hotels", to: "/hotels" },
-];
-
 function Index() {
-  const [tab, setTab] = useState<HeroTab>("hotels");
+  const [tab] = useState<HeroTab>("hotels");
   const [destination, setDestination] = useState("");
   const data = HERO[tab];
 
@@ -71,7 +63,6 @@ function Index() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar overlay activeSection={activeSection} />
-      <FloatingSidebar />
       <SectionDotNav sectionIds={SECTION_IDS} activeSection={activeSection} />
 
       {/* HERO */}
@@ -93,30 +84,6 @@ function Index() {
 
         {/* Content */}
         <div className="relative z-10 mx-auto max-w-[1320px] h-full px-6 flex flex-col items-center justify-center text-center">
-          {/* Tabs */}
-          <div className="mt-24 flex flex-wrap justify-center gap-2 p-1.5 rounded-full bg-white/10 backdrop-blur-xl border border-white/20">
-            {TABS.map(({ id, label }) => {
-              const Icon = HERO[id].icon;
-              const active = tab === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  onClick={() => setTab(id)}
-                  className={
-                    "relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium transition-all " +
-                    (active
-                      ? "bg-[#2563EB] text-white shadow-[0_8px_24px_rgba(37,99,235,0.5)]"
-                      : "text-white/85 hover:bg-white/10")
-                  }
-                >
-                  <Icon className="h-4 w-4" />
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-
           {/* Headline */}
           <AnimatePresence mode="wait">
             <motion.h1

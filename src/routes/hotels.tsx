@@ -75,7 +75,7 @@ function HotelsPage() {
       `}</style>
       <Navbar />
 
-      {/* Back to home — re-enables FloatingSidebar on "/" */}
+      {/* Back to home */}
       <Link
         to="/"
         aria-label="Back to home"

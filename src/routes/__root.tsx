@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { FloatingNav } from "@/components/FloatingNav";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -114,6 +115,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <FloatingNav />
       <Outlet />
       <Toaster richColors position="top-right" />
     </QueryClientProvider>
