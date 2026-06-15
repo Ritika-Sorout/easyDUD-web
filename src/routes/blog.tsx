@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/blog")({
@@ -22,7 +22,7 @@ const POSTS = [
 function BlogPage() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
       <section className="mx-auto max-w-[1320px] px-6 pt-32 pb-16">
         <h1 className="text-4xl md:text-6xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>
           Field <span className="italic" style={{ color: "#C5703F" }}>notes</span>

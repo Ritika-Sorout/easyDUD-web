@@ -8,6 +8,7 @@ interface SectionDotNavProps {
 
 const SECTION_LABELS: Record<string, string> = {
   hero: "Hero",
+  placards: "Services",
   services: "Our Services",
   offers: "What We Offer",
   pricing: "Plans & Pricing",

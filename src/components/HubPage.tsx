@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Check, ShieldCheck, Lock, Star, Headphones, type LucideIcon } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export interface HubService {
@@ -69,7 +69,7 @@ export function HubPage({
 }: HubPageProps) {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
 
       {/* HERO */}
       <section className="relative overflow-hidden">

@@ -31,7 +31,7 @@ function ContactPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
       <section className="mx-auto max-w-[1320px] px-6 pt-32 pb-16 grid gap-10 lg:grid-cols-2 items-start">
         <div>
           <h1 className="text-4xl md:text-6xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>

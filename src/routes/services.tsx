@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Plane, CarTaxiFront, Bike, Hotel, ArrowRight } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/services")({
@@ -24,7 +24,7 @@ const SERVICES = [
 function ServicesPage() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
       <section className="mx-auto max-w-[1320px] px-6 pt-32 pb-16">
         <motion.h1
           initial={{ opacity: 0, y: 16 }}

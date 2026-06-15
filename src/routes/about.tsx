@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const Route = createFileRoute("/about")({
@@ -34,7 +34,7 @@ const TEAM = [
 function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar overlay />
+      <Nav />
       <section className="relative h-[60vh] min-h-[440px] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1920&q=80"

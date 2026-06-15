@@ -1,0 +1,64 @@
+:root {
+  /* ── Colors ── */
+  --color-pure-white: #ffffff;
+  --color-pure-black: #000000;
+  --color-browser-link-blue: #0000ee;
+  --color-dark-navy: #23242d;
+
+  /* ── Typography families ──
+     --font-body    → Silka Regular (your installed font)
+     --font-semibold → Silka Regular rendered at weight 600 (browser synthesis)
+     --font-mono    → system monospace (SilkaMono not available yet)
+  */
+  --font-body: "Silka", system-ui, sans-serif;
+  --font-semibold: "Silka", system-ui, sans-serif;
+  --font-mono: ui-monospace, "Courier New", monospace;
+  --font-mono-medium: ui-monospace, "Courier New", monospace;
+
+  /* ── Type scale ── */
+  --text-display: 42px;
+  --text-body: 14px;
+  --text-nav: 13px;
+  --text-eyebrow: 11px;
+  --text-mono-md: 12px;
+  --text-coordinate: 9px;
+
+  /* ── Line heights ── */
+  --lh-display: 60px;
+  --lh-body: 17.5px;
+  --lh-mono-md: 15px;
+  --lh-coordinate: 11.25px;
+
+  /* ── Letter spacing ── */
+  --ls-eyebrow: 5px;
+  --ls-coordinate: 3px;
+  --ls-mono-md: 1px;
+
+  /* ── Spacing (5px base grid) ── */
+  --space-xs: 5px;
+  --space-sm: 10px;
+  --space-md: 20px;
+  --space-lg: 25px;
+  --space-xl: 30px;
+  --space-2xl: 40px;
+  --space-3xl: 60px;
+  --space-4xl: 80px;
+  --space-5xl: 210px;
+
+  /* ── Border radius (pill shapes only) ── */
+  --radius-pill: 25px;
+  --radius-pill-lg: 45px;
+  --radius-pill-xl: 75px;
+
+  /* ── Transitions ── */
+  --transition-smooth: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/*
+  Since we only have Silka Regular, allow the browser to synthesize bold.
+  Remove this rule when you add Silka-SemiBold.otf to public/fonts/.
+*/
+* {
+  font-synthesis: weight;
+}

@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { ServiceImage } from "@/components/ServiceImage";
 import { SERVICE_IMAGES, CATEGORY_META, type ServiceCategory } from "@/lib/service-images";
 
@@ -12,7 +12,7 @@ export function CategoryPage({ category }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
       <main className="mx-auto max-w-[1320px] px-6 pt-10 pb-16">
         <p className="text-sm font-medium text-foreground/60">easyDUD</p>
         <h1 className="mt-3 text-4xl md:text-5xl font-light tracking-tight text-foreground/90">

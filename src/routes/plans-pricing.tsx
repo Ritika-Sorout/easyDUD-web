@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 
 export const Route = createFileRoute("/plans-pricing")({
   head: () => ({
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/plans-pricing")({
 function PlansPricing() {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Nav />
       <main className="mx-auto max-w-6xl px-4 py-12">
         <h1 className="text-3xl font-bold text-foreground">Plans & Pricing</h1>
         <p className="mt-2 text-muted-foreground">Coming soon.</p>

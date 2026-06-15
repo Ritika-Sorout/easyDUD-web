@@ -1,0 +1,25 @@
+@font-face {
+  font-family: "Silka";
+  src:
+    url("/fonts/Silka-Regular.woff2") format("woff2"),
+    url("/fonts/Silka-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Silka";
+  src:
+    url("/fonts/Silka-Italic.woff2") format("woff2"),
+    url("/fonts/Silka-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/*
+  SemiBold fallback: only Regular + Italic webfonts are available.
+  When you add a Silka-SemiBold webfont, add it here with font-weight: 600
+  and remove the `font-synthesis: weight` rule in tokens.css.
+*/

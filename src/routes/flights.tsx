@@ -18,7 +18,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import flightsBg from "@/assets/flights-bg.jpg";
 import emblem from "@/assets/easydud-emblem.png";
 
@@ -182,7 +182,7 @@ function FlightsPage() {
       </div>
 
       <div className="relative z-10">
-        <Navbar />
+        <Nav />
 
         <main className="mx-auto max-w-[1320px] px-6 pb-24 pt-8">
           {/* Eyebrow */}

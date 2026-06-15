@@ -23,7 +23,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import {
   AnimatedInput,
@@ -104,7 +104,7 @@ function CabPage() {
 
   return (
     <div style={{ minHeight: "100vh", background: COLORS.bg, fontFamily: FONT_SANS, color: COLORS.ink }}>
-      <Navbar />
+      <Nav />
 
       {/* HERO */}
       <section

@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Search } from "lucide-react";
-import { Navbar } from "@/components/Navbar";
+import { Nav } from "@/components/Nav";
 import { SearchHero } from "@/components/hotels/SearchHero";
 import { PopularDestinations } from "@/components/hotels/PopularDestinations";
 import { FilterSidebar, type Filters } from "@/components/hotels/FilterSidebar";
@@ -73,7 +73,7 @@ function HotelsPage() {
       <style>{`
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
       `}</style>
-      <Navbar />
+      <Nav />
 
       {/* Back to home */}
       <Link

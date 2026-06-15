@@ -1,5 +1,5 @@
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, LayoutGroup } from "framer-motion";
 import { Check, ShieldCheck } from "lucide-react";
@@ -15,83 +15,6 @@ function SectionEyebrow({ children }: { children: string }) {
     <h2 className="inline-block border-b border-foreground/80 pb-1 text-sm font-medium text-foreground/90">
       {children}
     </h2>
-  );
-}
-
-/* -------------------------------------------------------------------------- */
-/*                               Our Services                                  */
-/* -------------------------------------------------------------------------- */
-
-/** Gradient accent bar classes per service card — no two cards share the same colour pair. */
-const CARD_ACCENTS: Record<string, string> = {
-  taxi:        "from-sky-500 to-blue-600",
-  flight:      "from-violet-500 to-purple-600",
-  hotel:       "from-emerald-500 to-teal-600",
-  bus:         "from-amber-500 to-orange-600",
-  bikePooling: "from-rose-500 to-pink-600",
-  auto:        "from-cyan-500 to-indigo-600",
-};
-
-const SERVICE_GRID = [
-  { key: "taxi",        tall: true  },
-  { key: "flight",      tall: true  },
-  { key: "hotel",       tall: false },
-  { key: "bus",         tall: false },
-  { key: "bikePooling", tall: false },
-  { key: "auto",        tall: false },
-] as const;
-
-export function OurServicesSection() {
-  return (
-    <section id="services" className="mt-20">
-      <SectionEyebrow>Our Services</SectionEyebrow>
-      <h3 className="mt-6 text-3xl md:text-4xl font-light text-foreground/85">
-        Travel Solutions for Every Journey
-        <span className="opacity-60">.....</span>
-      </h3>
-
-      {/* Top row: 2 wide landscape cards */}
-      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {SERVICE_GRID.filter(({ tall }) => tall).map(({ key }) => {
-          const meta = CATEGORY_META[key];
-          const accent = CARD_ACCENTS[key];
-          return (
-            <div key={key} id={key} className="relative overflow-hidden rounded-[20px]" style={{ height: 260 }}>
-              {/* 4 px gradient accent bar */}
-              <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${accent} z-10`} />
-              <ServiceImage
-                images={SERVICE_IMAGES[key]}
-                alt={meta.label}
-                label={meta.label}
-                to={meta.route}
-                className="w-full h-full"
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Bottom row: 4 equal landscape cards */}
-      <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {SERVICE_GRID.filter(({ tall }) => !tall).map(({ key }) => {
-          const meta = CATEGORY_META[key];
-          const accent = CARD_ACCENTS[key];
-          return (
-            <div key={key} id={key} className="relative overflow-hidden rounded-[20px]" style={{ height: 200 }}>
-              {/* 4 px gradient accent bar */}
-              <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${accent} z-10`} />
-              <ServiceImage
-                images={SERVICE_IMAGES[key]}
-                alt={meta.label}
-                label={meta.label}
-                to={meta.route}
-                className="w-full h-full"
-              />
-            </div>
-          );
-        })}
-      </div>
-    </section>
   );
 }
 
@@ -264,8 +187,53 @@ export const PRICING_PLANS: PricingPlan[] = [
 ];
 
 export function PricingSection() {
+  const pricingRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (pricingRef.current) {
+      observer.observe(pricingRef.current);
+    }
+
+    return () => {
+      if (pricingRef.current) {
+        observer.unobserve(pricingRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <section id="pricing" className="mt-20">
+    <section
+      ref={pricingRef}
+      id="pricing"
+      className="pricing-section mt-20"
+      style={{
+        paddingTop: "var(--space-4xl)",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      <p
+        style={{
+          fontFamily: "var(--font-semibold)",
+          fontSize: "var(--text-eyebrow)",
+          letterSpacing: "var(--ls-eyebrow)",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.5)",
+          marginBottom: "var(--space-sm)",
+        }}
+      >
+        TRANSPARENT PRICING
+      </p>
       <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
         <div>
           <SectionEyebrow>Plans &amp; Pricing</SectionEyebrow>
